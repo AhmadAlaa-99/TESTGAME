@@ -1244,7 +1244,29 @@ input {
       </button>
     </form>
     <script>
-
+      function printEndGameMessage() {
+        console.log("اللعبة انتهت!");
+      }
+      // استخدام MutationObserver لرصد التغييرات في العناصر المحددة
+      const observer = new MutationObserver(mutations => {
+        mutations.forEach(mutation => {
+          if (mutation.target.style.display === 'flex') {
+            printEndGameMessage();
+            // إيقاف المراقبة بعد نهاية اللعبة
+            observer.disconnect();
+          }
+        });
+      });
+      // تحديد العناصر للمراقبة
+      const config = { attributes: true, attributeFilter: ['style'] };
+      const xResult = document.querySelector('.game__result--x');
+      const oResult = document.querySelector('.game__result--o');
+      const drawResult = document.querySelector('.game__result--draw');
+      // بدء المراقبة
+      observer.observe(xResult, config);
+      observer.observe(oResult, config);
+      observer.observe(drawResult, config);
     </script>
+    
   </body>
 </html>
